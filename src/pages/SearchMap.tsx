@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Header from "../components/Header";
 import { Colors } from "../assets/colors";
-import { getGeoloc } from "../API";
+import { getGeoloc, getGeolocLink } from "../API";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
 import { Icon } from "leaflet";
@@ -12,12 +12,21 @@ const styles = {
     display: "flex",
     justifyContent: "space-evenly",
     alignItems: "center",
-    height: "15vh",
+    height: "10vh",
     width: "100%",
     backgroundColor: Colors.lightBlue,
   },
   input: {
     width: "200px",
+    border: "none",
+    borderRadius: "15px",
+    padding: "10px",
+    fontSize: "20px",
+    backgroundColor: Colors.greyBlue,
+    color: "white",
+  },
+  inputLink: {
+    width: "600px",
     border: "none",
     borderRadius: "15px",
     padding: "10px",
@@ -64,6 +73,27 @@ function SearchMap() {
     }
   }
 
+  async function searchLinkHandler() {
+    const link = (document.getElementById("link") as HTMLInputElement).value;
+
+    const data = await getGeolocLink(link);
+
+    setPositions([]);
+
+    if (data) {
+      data.forEach((element: any) => {
+        setPositions((prev) => [
+          ...prev,
+          {
+            address: element.address,
+            latitude: element.latitude,
+            longitude: element.longitude,
+          },
+        ]);
+      });
+    }
+  }
+
   return (
     <div>
       <Header />
@@ -86,8 +116,15 @@ function SearchMap() {
         </div>
         <div onClick={searchHandler}>Search</div>
       </div>
+      <div style={styles.search}>
+        <div>
+          <div>Immonot link</div>
+          <input id="link" style={styles.inputLink} type="text" />
+        </div>
+        <div onClick={searchLinkHandler}>Search</div>
+      </div>
       <MapContainer
-        style={{ height: "75vh" }}
+        style={{ height: "70vh" }}
         center={[48.00611, 0.199556]}
         zoom={8}
         scrollWheelZoom={false}

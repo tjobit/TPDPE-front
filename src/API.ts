@@ -69,4 +69,13 @@ async function getGeoloc(
   }
 }
 
-export { register, login, getGeoloc };
+async function getGeolocLink(link: string) {
+  try {
+    const response = await axios.post(`/geoloc`, { link: link });
+    return response.data;
+  } catch (error: any) {
+    alert(error.response.data);
+  }
+}
+
+export { register, login, getGeoloc, getGeolocLink };
