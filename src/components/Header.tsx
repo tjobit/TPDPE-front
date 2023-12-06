@@ -29,7 +29,7 @@ function Header() {
       <div style={styles.title}>
         Address Finder
       </div>
-      <Link to=""><img src={account} alt="account"/></Link>
+      <Link to="/userSearches"><img src={account} alt="account"/></Link>
       <Link to="/login"><img src={disconnect} alt="disconnect"/></Link>
     </div>
   );

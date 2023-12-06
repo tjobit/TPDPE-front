@@ -78,4 +78,23 @@ async function getGeolocLink(link: string) {
   }
 }
 
-export { register, login, getGeoloc, getGeolocLink };
+async function getUserProfile() {
+  try {
+    const response = await axios.get("/user");
+    return response.data;
+  } catch (error: any) {
+    alert(error.response.data);
+  }
+}
+
+async function getUserSavedSearches(page: number) {
+  try {
+    const response = await axios.get(`/savedSearches/${page}`);
+    return response.data;
+  } catch (error: any) {
+    alert(error.response.data);
+  }
+
+}
+
+export { register, login, getGeoloc, getGeolocLink, getUserProfile, getUserSavedSearches };
